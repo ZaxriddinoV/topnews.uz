@@ -44,7 +44,7 @@ public class AttachService {
     public AttachDTO upload(MultipartFile file) {
         String pathFolder = getYmDString();
         String key = UUID.randomUUID().toString();
-        String extension = getExtension(file.getOriginalFilename()); // .jpg, .png, .mp4
+        String extension = getExtension(Objects.requireNonNull(file.getOriginalFilename())); // .jpg, .png, .mp4
         File folder = new File(folderName + "/" + pathFolder); // attaches/2024/09/27
         if (!folder.exists()) {
             folder.mkdirs();

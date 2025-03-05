@@ -1,6 +1,6 @@
-package com.company.topnews.article.articles.entity;
+package com.company.topnews.article.entity;
 
-import com.company.topnews.article.articles.enums.ArticleStatus;
+import com.company.topnews.article.enums.ArticleStatus;
 import com.company.topnews.attach.entity.AttachEntity;
 import com.company.topnews.reference.category.entity.CategoryEntity;
 import com.company.topnews.reference.section.entity.SectionEntity;
