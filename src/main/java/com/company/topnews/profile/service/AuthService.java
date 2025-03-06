@@ -1,7 +1,6 @@
 package com.company.topnews.profile.service;
 
 
-
 import com.company.topnews.exceptionHandler.AppBadException;
 import com.company.topnews.profile.dto.AuthDTO;
 import com.company.topnews.profile.dto.ProfileDTO;
@@ -58,20 +57,23 @@ public class AuthService {
 
     public String registration(RegistrationDTO dto) {
         Optional<ProfileEntity> optional = profileRepository.findByEmailAndVisibleTrue(dto.getEmail());
-        if (optional.isPresent() && optional.get().getStatus().equals(ProfileStatus.IN_REGISTRATION)) {
+        if (optional.isPresent()) {
             ProfileEntity profileEntity = optional.get();
-            LocalDateTime now = LocalDateTime.now();
-            LocalDateTime createdDate = profileEntity.getCreatedDate();
-            Duration duration = Duration.between(createdDate, now);
-            if (duration.toMinutes() < 1) {
-                System.out.println("Sizga emailga link yuborilgan!");
-            } else {
-                profileRepository.delete(profileEntity);
-            }
-        }
 
-        if (optional.isPresent() && optional.get().getStatus().equals(ProfileStatus.ACTIVE)) {
-            throw new AppBadException("Email or Phone already exists");
+            if (profileEntity.getStatus().equals(ProfileStatus.IN_REGISTRATION)) {
+                LocalDateTime now = LocalDateTime.now();
+                Duration duration = Duration.between(profileEntity.getCreatedDate(), now);
+
+                if (duration.toMinutes() < 1) {
+                    throw new AppBadException("Sizga emailga link yuborilgan!");
+                } else {
+                    profileRepository.deleteProfileById(profileEntity.getId());
+                }
+            }
+
+            if (profileEntity.getStatus().equals(ProfileStatus.ACTIVE)) {
+                throw new AppBadException("Email or Phone already exists");
+            }
         }
         UsernameValidationUtil util = new UsernameValidationUtil();
         UsernameEnum usernameEnum = util.identifyInputType(dto.getEmail());
@@ -122,7 +124,7 @@ public class AuthService {
         ProfileEntity entity = optional.get();
         if (!entity.getStatus().equals(ProfileStatus.IN_REGISTRATION)) {
             throw new AppBadException("Not Completed");
-        }else {
+        } else {
             List<ProfileRoleEntity> roles = new ArrayList<>();
             entity.setStatus(ProfileStatus.ACTIVE);
             ProfileRoleEntity pRoleEntity = new ProfileRoleEntity();

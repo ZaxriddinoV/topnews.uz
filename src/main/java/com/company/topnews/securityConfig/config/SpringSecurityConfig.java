@@ -67,10 +67,10 @@ public class SpringSecurityConfig {
             authorizationManagerRequestMatcherRegistry
                     .requestMatchers(AUTH_WHITELIST).permitAll()
                     .requestMatchers("api/attach/**").permitAll()
-                    .requestMatchers("/api/post/**").permitAll()
-                    .requestMatchers("/api/post/all").permitAll()
                     .requestMatchers("/api/auth/**").permitAll()
                     .requestMatchers("/api/auth/registration/confirm/*").permitAll()
+                    .requestMatchers("/api/region/*").permitAll()
+                    .requestMatchers("/api/category/*").permitAll()
                     .anyRequest()
                     .authenticated();
         }).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

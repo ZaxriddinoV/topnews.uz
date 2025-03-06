@@ -26,10 +26,6 @@ public interface ProfileRepository extends JpaRepository<ProfileEntity, Integer>
     @Query("UPDATE ProfileEntity s SET s.status = 'ACTIVE' WHERE s.phone=?1 ")
     Integer update(String username);
 
-    @Transactional
-    @Modifying
-    @Query("DELETE FROM ProfileRoleEntity pr WHERE pr.profileId = :profileId")
-    void deleteRolesByProfileId(@Param("profileId") Integer profileId);
 
     @Transactional
     @Modifying
