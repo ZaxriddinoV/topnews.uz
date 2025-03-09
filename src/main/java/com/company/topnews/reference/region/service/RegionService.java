@@ -5,6 +5,7 @@ import com.company.topnews.reference.region.dto.LangDTO;
 import com.company.topnews.reference.region.dto.RegionDTO;
 import com.company.topnews.reference.region.entity.RegionEntity;
 import com.company.topnews.reference.region.repository.RegionRepository;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -98,5 +99,11 @@ public class RegionService {
             }
         }
 
+    }
+    public Integer checkRegion(Integer region) {
+        Optional<RegionEntity> byId = repository.findByIdAndVisibleTrue(region);
+        if (byId.isPresent()) {
+            return byId.get().getId();
+        }else throw new AppBadException("region does not exist");
     }
 }
