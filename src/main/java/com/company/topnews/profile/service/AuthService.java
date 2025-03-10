@@ -54,6 +54,8 @@ public class AuthService {
     AuthenticationManager authenticationManager;
     @Autowired
     private ProfileRoleRepository profileRoleRepository;
+    @Autowired
+    private ProfileRoleService profileRoleService;
 
     public String registration(RegistrationDTO dto) {
         Optional<ProfileEntity> optional = profileRepository.findByEmailAndVisibleTrue(dto.getEmail());
@@ -158,6 +160,7 @@ public class AuthService {
     }
 
     public ProfileDTO login(AuthDTO dto) {
+        List<String> roles = new ArrayList<>();
         Optional<ProfileEntity> optional = profileRepository.findByEmailAndVisibleTrue(dto.getUsername());
         if (optional.isEmpty()) {
             throw new AppBadException("Email or Password wrong");
@@ -169,15 +172,16 @@ public class AuthService {
         if (!entity.getStatus().equals(ProfileStatus.ACTIVE)) {
             throw new AppBadException("User Not Active");
         }
+
         ProfileDTO profileDTO = new ProfileDTO();
         profileDTO.setId(entity.getId());
         profileDTO.setName(entity.getName());
         profileDTO.setSurname(entity.getSurname());
         profileDTO.setEmail(entity.getEmail());
-        profileDTO.setRole(entity.getRole());
-        String accessToken = JwtUtil.encode(entity.getEmail(), entity.getRole().toString());
+        profileDTO.setRole(profileRoleService.getAllProfileRoles(entity.getRole()));
+        String accessToken = JwtUtil.encode(entity.getEmail(), profileDTO.getRole());
         String refreshToken = JwtUtil.generateRefreshToken(entity.getEmail());
-        profileDTO.setJwtToken(accessToken);
+        profileDTO.setAccessToken(accessToken);
         profileDTO.setRefreshToken(refreshToken);
         return profileDTO;
     }

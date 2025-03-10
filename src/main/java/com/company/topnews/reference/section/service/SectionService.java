@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -97,5 +98,17 @@ public class SectionService {
             }
         }
 
+    }
+
+    public List<SectionEntity> checkSection(List<Integer> ids) {
+        List<SectionEntity> checkedSections = new ArrayList<>();
+        for (Integer id : ids) {
+            Optional<SectionEntity> byId = repository.findByIdAndVisibleTrue(id);
+            byId.ifPresent(checkedSections::add);
+        }
+        if (checkedSections.isEmpty()) {
+            throw new AppBadException("section does not exist");
+        }
+        return checkedSections;
     }
 }

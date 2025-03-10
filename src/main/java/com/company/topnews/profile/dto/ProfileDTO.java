@@ -3,7 +3,6 @@ package com.company.topnews.profile.dto;
 
 import com.company.topnews.attach.entity.AttachEntity;
 import com.company.topnews.profile.entity.ProfileEntity;
-import com.company.topnews.profile.entity.ProfileRoleEntity;
 import com.company.topnews.profile.enums.ProfileStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotBlank;
@@ -34,20 +33,8 @@ public class ProfileDTO {
     private String password;
     private AttachEntity photo;
     private ProfileStatus status;
-    private List<ProfileRoleEntity> role;
-    private String JwtToken;
+    private List<String> role;
+    private String accessToken;
     private String refreshToken;
 
-    public ProfileEntity mapToEntity() {
-        ProfileEntity profileEntity = new ProfileEntity();
-        profileEntity.setName(this.getName());
-        profileEntity.setSurname(this.getSurname());
-        profileEntity.setPassword(this.getPassword());
-        profileEntity.setRole(this.getRole());
-        profileEntity.setEmail(this.getEmail());
-        profileEntity.setStatus(this.getStatus());
-        profileEntity.setCreatedDate(LocalDateTime.now());
-        profileEntity.setVisible(Boolean.TRUE);
-        return profileEntity;
-    }
 }

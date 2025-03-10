@@ -71,6 +71,14 @@ public class AttachService {
     public List<AttachDTO> uploadMultipleFiles(List<MultipartFile> files) {
         return files.stream().map(this::upload).collect(Collectors.toList());
     }
+    public List<AttachEntity> articleImages(List<MultipartFile> files) {
+        List<AttachEntity> entities = new ArrayList<>();
+        List<AttachDTO> attachDTOS = uploadMultipleFiles(files);
+        for (AttachDTO attachDTO : attachDTOS) {
+            entities.add(getEntity(attachDTO.getId()));
+        }
+        return entities;
+    }
 
     private String getYmDString() {
         int year = Calendar.getInstance().get(Calendar.YEAR);
@@ -153,6 +161,13 @@ public class AttachService {
         dto.setId(entity.getId());
         dto.setUrl(domainName + "/api/attach/open/name/" + entity.getId());
         return dto;
+    }
+    public List<GetAttachDTO> getUrls(List<AttachEntity> images) {
+        List<GetAttachDTO> dtoList = new LinkedList<>();
+        for (AttachEntity entity : images) {
+            dtoList.add(getUrl(entity.getId()));
+        }
+        return dtoList;
     }
 
 
