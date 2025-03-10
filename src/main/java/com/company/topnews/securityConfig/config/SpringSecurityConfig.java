@@ -71,6 +71,7 @@ public class SpringSecurityConfig {
                     .requestMatchers("/api/auth/registration/confirm/*").permitAll()
                     .requestMatchers("/api/region/*").permitAll()
                     .requestMatchers("/api/category/*").permitAll()
+                    .requestMatchers("/api/section/*").permitAll()
                     .anyRequest()
                     .authenticated();
         }).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

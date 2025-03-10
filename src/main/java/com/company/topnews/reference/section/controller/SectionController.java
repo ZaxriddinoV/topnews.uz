@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/section")
-public class CategoryController {
+public class SectionController {
     @Autowired
     private SectionService service;
 
@@ -37,8 +37,8 @@ public class CategoryController {
         ApiResponse<?> response = new ApiResponse<>(200,"region all",service.sectionAll());
         return ResponseEntity.ok(response);
     }
-    @GetMapping("/{lang}")
-    public ResponseEntity<?> getRegionByLang(@PathVariable String lang) {
+    @GetMapping("/listAll")
+    public ResponseEntity<?> getRegionByLang(@RequestHeader(value = "Accept-Language",defaultValue = "ru") String lang) {
         ApiResponse<?> response = new ApiResponse<>(200,lang + " - all",service.sectionLang(lang));
         return ResponseEntity.ok(response);
     }

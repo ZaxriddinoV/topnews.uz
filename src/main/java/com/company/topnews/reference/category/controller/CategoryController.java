@@ -36,12 +36,11 @@ public class CategoryController {
         ApiResponse<?> response = new ApiResponse<>(200,"region all",service.categoryAll());
         return ResponseEntity.ok(response);
     }
-    @GetMapping("/{lang}")
-    public ResponseEntity<?> getRegionByLang(@PathVariable String lang) {
+    @GetMapping("/listAll")
+    public ResponseEntity<?> getRegionByLang(@RequestHeader(value = "Accept-Language",defaultValue = "ru") String lang) {
         ApiResponse<?> response = new ApiResponse<>(200,lang + " - all",service.categoryLang(lang));
         return ResponseEntity.ok(response);
     }
-
 
 
 }
