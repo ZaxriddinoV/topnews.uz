@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/api/auth")
-public class authController {
+public class AuthController {
     @Autowired
     private AuthService authService;
 //    @Operation(summary = "Api for authorization", description = "This api for users to register")
